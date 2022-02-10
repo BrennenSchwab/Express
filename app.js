@@ -3,7 +3,7 @@ const app = express();
 const { arrayToIntAndErrorHandle, findMode, findMean, findMedian } = require('./helpers');
 const ExpressError = require('./expressError');
 
-app.get('/mean', (req, res) => {
+app.get('/mean', (req, res, next) => {
         if (!req.query.nums) {
             throw new ExpressError('You must pass a query key of nums with a comma-separated list of numbers.', 400);
         }
@@ -22,7 +22,7 @@ app.get('/mean', (req, res) => {
         return res.send(result);
     });
 
-app.get('/median', (req, res) => {
+app.get('/median', (req, res, next) => {
         if (!req.query.nums) {
             throw new ExpressError('Enter a comma-separated list of numbers.', 400);
         }
@@ -41,7 +41,7 @@ app.get('/median', (req, res) => {
 
     });
 
-app.get('/mode', (req, res) => {
+app.get('/mode', (req, res, next) => {
         if (!req.query.nums) {
             throw new ExpressError('Enter a comma-separated list of numbers.', 400);
         }
@@ -63,7 +63,7 @@ app.get('/mode', (req, res) => {
     });
 
 
-app.use((next) => {
+app.use((req, res, next) => {
         const err = new ExpressError("Not Found", 404);
         return next(err);
     });
